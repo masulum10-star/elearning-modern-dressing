@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Learning Modern Dressing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 3px solid #3b82f6;
+            flex-wrap: wrap;
+        }
+
+        .nav-tabs button {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px 20px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .nav-tabs button:hover {
+            background: #e9ecef;
+        }
+
+        .nav-tabs button.active {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            color: #1e3a8a;
+            margin-bottom: 15px;
+        }
+
+        .dressing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .dressing-card {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 2px solid #3b82f6;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .dressing-card h4 {
+            color: #1e3a8a;
+            margin-bottom: 10px;
+        }
+
+        .timeline-item {
+            padding: 20px;
+            border-left: 3px solid #3b82f6;
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .quiz-option {
+            padding: 15px;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+
+        .quiz-option:hover {
+            border-color: #3b82f6;
+            background: #f0f9ff;
+        }
+
+        .quiz-option.selected {
+            border-color: #3b82f6;
+            background: #dbeafe;
+        }
+
+        .quiz-option.correct {
+            border-color: #10b981;
+            background: #d1fae5;
+        }
+
+        .quiz-option.wrong {
+            border-color: #ef4444;
+            background: #fee2e2;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+            color: white;
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .result {
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .result.success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .result.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #1e3a8a;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .badge-success { background: #d1fae5; color: #065f46; }
+        .badge-warning { background: #fef3c7; color: #92400e; }
+        .badge-danger { background: #fee2e2; color: #991b1b; }
+        .badge-info { background: #dbeafe; color: #1e40af; }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8em; }
+            .dressing-grid { grid-template-columns: 1fr; }
+            .content { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🩹 E-Learning Modern Dressing</h1>
+            <p>Platform Pembelajaran Perawatan Luka Modern untuk Mahasiswa Keperawatan</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="active" onclick="showTab('materi')">📚 Materi</button>
+            <button onclick="showTab('jenis-balutan')">💊 Jenis Balutan</button>
+            <button onclick="showTab('prosedur')">📋 Prosedur</button>
+            <button onclick="showTab('quiz')">🎯 Kuis</button>
+        </div>
+
+        <div class="content">
+            <!-- Tab Materi -->
+            <div id="materi" class="tab-content active">
+                <div class="card">
+                    <h3>📖 Fase Penyembuhan Luka</h3>
+                    <div class="timeline-item">
+                        <h4>1. Fase Hemostasis (0-24 jam)</h4>
+                        <p>Vasokonstriksi → pembentukan platelet plug → aktivasi cascade koagulasi → pembentukan fibrin clot</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>2. Fase Inflamasi (1-4 hari)</h4>
+                        <p>Vasodilatasi → peningkatan permeabilitas kapiler → migrasi neutrofil dan makrofag → pembersihan debris dan bakteri</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>3. Fase Proliferasi (4-21 hari)</h4>
+                        <p>Angiogenesis → pembentukan jaringan granulasi → epitelisasi → kontraksi luka</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h4>4. Fase Maturasi/Remodeling (21 hari - 2 tahun)</h4>
+                        <p>Reorganisasi kolagen → peningkatan tensile strength → pembentukan scar tissue</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>💧 Prinsip Moist Wound Healing</h3>
+                    <p><strong>Konsep:</strong> Lingkungan luka yang lembab (moist) mempercepat penyembuhan luka 40-50% dibanding lingkungan kering.</p>
+                    <br>
+                    <p><strong>Keuntungan:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+                        <li>Mempercepat angiogenesis dan epitelisasi</li>
+                        <li>Meningkatkan aktivitas growth factors</li>
+                        <li>Memfasilitasi autolytic debridement</li>
+                        <li>Mengurangi nyeri saat ganti balutan</li>
+                        <li>Menurunkan risiko infeksi</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>⏰ Konsep TIME</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                        <div style="padding: 15px; background: #f0f9ff; border-radius: 10px;">
+                            <strong style="color: #1e3a8a;">T - Tissue</strong>
+                            <p style="margin-top: 10px;">Manajemen jaringan non-viable (nekrotik, slough)</p>
+                        </div>
+                        <div style="padding: 15px; background: #fef3c7; border-radius: 10px;">
+                            <strong style="color: #92400e;">I - Infection/Inflammation</strong>
+                            <p style="margin-top: 10px;">Kontrol infeksi dan inflamasi</p>
+                        </div>
+                        <div style="padding: 15px; background: #d1fae5; border-radius: 10px;">
+                            <strong style="color: #065f46;">M - Moisture</strong>
+                            <p style="margin-top: 10px;">Balance cairan luka (tidak terlalu kering/basah)</p>
+                        </div>
+                        <div style="padding: 15px; background: #fee2e2; border-radius: 10px;">
+                            <strong style="color: #991b1b;">E - Edge</strong>
+                            <p style="margin-top: 10px;">Fasilitasi migrasi epitel dari tepi luka</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Jenis Balutan -->
+            <div id="jenis-balutan" class="tab-content">
+                <div class="dressing-grid">
+                    <div class="dressing-card">
+                        <h4>🎬 Film Dressing</h4>
+                        <p><strong>Contoh:</strong> Tegaderm, OpSite</p>
+                        <p style="margin: 10px 0;"><strong>Karakteristik:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Transparan</li>
+                            <li>Permeabel terhadap gas</li>
+                            <li>Semi-oklusif</li>
+                        </ul>
+                        <p style="margin: 10px 0;"><strong>Indikasi:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Luka superficial</li>
+                            <li>Luka donor skin graft</li>
+                            <li>Proteksi luka minor</li>
+                        </ul>
+                        <span class="badge badge-success">Eksudat Minimal</span>
+                    </div>
+
+                    <div class="dressing-card">
+                        <h4>🧽 Foam Dressing</h4>
+                        <p><strong>Contoh:</strong> Mepilex, Allevyn</p>
+                        <p style="margin: 10px 0;"><strong>Karakteristik:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Polyurethane foam</li>
+                            <li>Absorben tinggi</li>
+                            <li>Cushioning effect</li>
+                        </ul>
+                        <p style="margin: 10px 0;"><strong>Indikasi:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Luka dengan eksudat sedang-berat</li>
+                            <li>Pressure injury</li>
+                            <li>Leg ulcer</li>
+                        </ul>
+                        <span class="badge badge-warning">Eksudat Sedang-Berat</span>
+                    </div>
+
+                    <div class="dressing-card">
+                        <h4>💧 Hydrogel</h4>
+                        <p><strong>Contoh:</strong> IntraSite, Nu-gel</p>
+                        <p style="margin: 10px 0;"><strong>Karakteristik:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Kandungan air 80-90%</li>
+                            <li>Mendonasi moisture</li>
+                            <li>Cooling effect</li>
+                        </ul>
+                        <p style="margin: 10px 0;"><strong>Indikasi:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Luka kering</li>
+                            <li>Jaringan nekrotik</li>
+                            <li>Luka bakar</li>
+                        </ul>
+                        <span class="badge badge-info">Luka Kering</span>
+                    </div>
+
+                    <div class="dressing-card">
+                        <h4>🟡 Hydrocolloid</h4>
+                        <p><strong>Contoh:</strong> DuoDERM, Comfeel</p>
+                        <p style="margin: 10px 0;"><strong>Karakteristik:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>CMC, gelatin, pectin</li>
+                            <li>Oklusif/semi-oklusif</li>
+                            <li>Membentuk gel kuning</li>
+                        </ul>
+                        <p style="margin: 10px 0;"><strong>Indikasi:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Luka partial thickness</li>
+                            <li>Eksudat minimal-sedang</li>
+                            <li>Granulasi tissue</li>
+                        </ul>
+                        <span class="badge badge-success">Eksudat Minimal-Sedang</span>
+                    </div>
+
+                    <div class="dressing-card">
+                        <h4>🌿 Alginate</h4>
+                        <p><strong>Contoh:</strong> Kaltostat, Sorbsan</p>
+                        <p style="margin: 10px 0;"><strong>Karakteristik:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Dari rumput laut</li>
+                            <li>High absorbency</li>
+                            <li>Hemostatic properties</li>
+                        </ul>
+                        <p style="margin: 10px 0;"><strong>Indikasi:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Eksudat berat</li>
+                            <li>Cavity wounds</li>
+                            <li>Luka berdarah</li>
+                        </ul>
+                        <span class="badge badge-danger">Eksudat Berat</span>
+                    </div>
+
+                    <div class="dressing-card">
+                        <h4>⚡ Hydrofiber</h4>
+                        <p><strong>Contoh:</strong> Aquacel</p>
+                        <p style="margin: 10px 0;"><strong>Karakteristik:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>CMC technology</li>
+                            <li>Vertical wicking</li>
+                            <li>Membentuk gel kohesif</li>
+                        </ul>
+                        <p style="margin: 10px 0;"><strong>Indikasi:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Eksudat sedang-berat</li>
+                            <li>Cavity wounds</li>
+                            <li>Infected wounds</li>
+                        </ul>
+                        <span class="badge badge-warning">Eksudat Sedang-Berat</span>
+                    </div>
+
+                    <div class="dressing-card">
+                        <h4>🛡️ Silver Dressing</h4>
+                        <p><strong>Contoh:</strong> Acticoat, Aquacel Ag</p>
+                        <p style="margin: 10px 0;"><strong>Karakteristik:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Antimicrobial silver</li>
+                            <li>Broad spectrum</li>
+                            <li>Low resistance</li>
+                        </ul>
+                        <p style="margin: 10px 0;"><strong>Indikasi:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Luka terinfeksi</li>
+                            <li>High bacterial load</li>
+                            <li>Luka bakar</li>
+                        </ul>
+                        <span class="badge badge-danger">Infected Wounds</span>
+                    </div>
+
+                    <div class="dressing-card">
+                        <h4>🖤 Activated Charcoal</h4>
+                        <p><strong>Contoh:</strong> Actisorb, CarboFlex</p>
+                        <p style="margin: 10px 0;"><strong>Karakteristik:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Odor control</li>
+                            <li>Absorben eksudat</li>
+                            <li>Dapat mengandung silver</li>
+                        </ul>
+                        <p style="margin: 10px 0;"><strong>Indikasi:</strong></p>
+                        <ul style="margin-left: 20px;">
+                            <li>Luka berbau (malodor)</li>
+                            <li>Fungating wounds</li>
+                            <li>Infected ulcers</li>
+                        </ul>
+                        <span class="badge badge-info">Malodorous Wounds</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Prosedur -->
+            <div id="prosedur" class="tab-content">
+                <div class="card">
+                    <h3>📋 Prosedur Perawatan Luka Modern</h3>
+                    
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-top: 15px;">
+                        <h4 style="color: #1e3a8a; margin-bottom: 15px;">Persiapan Alat:</h4>
+                        <ul style="margin-left: 20px; line-height: 1.8;">
+                            <li>Sarung tangan steril dan non-steril</li>
+                            <li>Normal saline / wound cleanser</li>
+                            <li>Kassa steril</li>
+                            <li>Modern dressing sesuai indikasi</li>
+                            <li>Plester/tape hypoallergenic</li>
+                            <li>Gunting balutan</li>
+                            <li>Bengkok/waste bag</li>
+                            <li>Penggaris/wound measurement tool</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-top: 25px;">
+                        <h4 style="color: #1e3a8a; margin-bottom: 15px;">Langkah-Langkah Prosedur:</h4>
+                        
+                        <div style="background: #dbeafe; padding: 15px; border-left: 4px solid #3b82f6; margin-bottom: 15px; border-radius: 5px;">
+                            <strong>1. Persiapan Pasien</strong>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Jelaskan prosedur kepada pasien</li>
+                                <li>Atur posisi yang nyaman</li>
+                                <li>Jaga privasi pasien</li>
+                            </ul>
+                        </div>
+
+                        <div style="background: #dbeafe; padding: 15px; border-left: 4px solid #3b82f6; margin-bottom: 15px; border-radius: 5px;">
+                            <strong>2. Cuci Tangan & Pakai APD</strong>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Cuci tangan dengan 6 langkah WHO</li>
+                                <li>Gunakan sarung tangan non-steril untuk membuka balutan lama</li>
+                            </ul>
+                        </div>
+
+                        <div style="background: #dbeafe; padding: 15px; border-left: 4px solid #3b82f6; margin-bottom: 15px; border-radius: 5px;">
+                            <strong>3. Buka Balutan Lama</strong>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Buka dengan hati-hati, searah pertumbuhan rambut</li>
+                                <li>Jika lengket, basahi dengan normal saline</li>
+                                <li>Observasi kondisi balutan dan eksudat</li>
+                            </ul>
+                        </div>
+
+                        <div style="background: #dbeafe; padding: 15px; border-left: 4px solid #3b82f6; margin-bottom: 15px; border-radius: 5px;">
+                            <strong>4. Wound Assessment</strong>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Ukur dimensi luka (panjang x lebar x kedalaman)</li>
+                                <li>Observasi warna jaringan</li>
+                                <li>Evaluasi jumlah dan karakteristik eksudat</li>
+                                <li>Cek tanda-tanda infeksi</li>
+                            </ul>
+                        </div>
+
+                        <div style="background: #dbeafe; padding: 15px; border-left: 4px solid #3b82f6; margin-bottom: 15px; border-radius: 5px;">
+                            <strong>5. Wound Cleansing</strong>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Ganti sarung tangan steril</li>
+                                <li>Irigasi luka dengan normal saline</li>
+                                <li>Bersihkan dari area bersih ke kotor</li>
+                                <li>Hindari penggunaan antiseptik sitotoksik</li>
+                            </ul>
+                        </div>
+
+                        <div style="background: #dbeafe; padding: 15px; border-left: 4px solid #3b82f6; margin-bottom: 15px; border-radius: 5px;">
+                            <strong>6. Aplikasi Modern Dressing</strong>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Pilih balutan sesuai kondisi luka</li>
+                                <li>Potong balutan 2-3 cm lebih besar dari luka</li>
+                                <li>Aplikasikan dengan teknik aseptik</li>
+                                <li>Tutup dengan secondary dressing jika diperlukan</li>
+                            </ul>
+                        </div>
+
+                        <div style="background: #d1fae5; padding: 15px; border-left: 4px solid #10b981; margin-bottom: 15px; border-radius: 5px;">
+                            <strong>7. Dokumentasi & Edukasi</strong>
+                            <ul style="margin: 10px 0 0 20px;">
+                                <li>Catat hasil assessment dan tindakan</li>
+                                <li>Foto dokumentasi (dengan informed consent)</li>
+                                <li>Edukasi pasien/keluarga</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Kuis -->
+            <div id="quiz" class="tab-content">
+                <div class="card">
+                    <h3>🎯 Kuis Pemahaman Modern Dressing</h3>
+                    
+                    <div style="margin-top: 20px;">
+                        <div style="margin-bottom: 30px;">
+                            <h4>1. Apa fase penyembuhan luka yang ditandai dengan pembentukan jaringan granulasi?</h4>
+                            <div class="quiz-option" onclick="selectAnswer(this, 'q1', false)">A. Fase Hemostasis</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, 'q1', false)">B. Fase Inflamasi</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, 'q1', true)">C. Fase Proliferasi</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, 'q1', false)">D. Fase Maturasi</div>
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4>2. Balutan apa yang paling tepat untuk luka dengan eksudat berat?</h4>
+                            <div class="quiz-option" onclick="selectAnswer(this, 'q2', false)">A. Film dressing</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, 'q2', false)">B. Hydrogel</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, 'q2', true)">C. Alginate</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, 'q2', false)">D. Hydrocolloid</div>
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4>3. Apa keuntungan utama moist wound healing?</h4>
+                            <div class="quiz-option" onclick="selectAnswer(this, 'q3', false)">A. Membuat luka lebih kering</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, 'q3', true)">B. Mempercepat penyembuhan 40-50%</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, 'q3', false)">C. Menghambat angiogenesis</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, 'q3', false)">D. Meningkatkan pembentukan eschar</div>
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4>4. Huruf "I" dalam konsep TIME merujuk pada:</h4>
+                            <div class="quiz-option" onclick="selectAnswer(this, 'q4', false)">A. Irrigation</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, 'q4', true)">B. Infection/Inflammation</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, 'q4', false)">C. Integration</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, 'q4', false)">D. Incision</div>
+                        </div>
+
+                        <div style="margin-bottom: 30px;">
+                            <h4>5. Silver dressing paling tepat digunakan untuk:</h4>
+                            <div class="quiz-option" onclick="selectAnswer(this, 'q5', false)">A. Luka kering tanpa eksudat</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, 'q5', true)">B. Luka terinfeksi</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, 'q5', false)">C. Luka superficial bersih</div>
+                            <div class="quiz-option" onclick="selectAnswer(this, 'q5', false)">D. Luka dengan eksudat minimal</div>
+                        </div>
+
+                        <button class="btn" onclick="checkQuiz()">Cek Jawaban</button>
+                        <div id="quizResult"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let answers = {};
+
+        function showTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            const buttons = document.querySelectorAll('.nav-tabs button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function selectAnswer(element, question, isCorrect) {
+            const options = document.querySelectorAll(`[onclick*="${question}"]`);
+            options.forEach(opt => opt.classList.remove('selected'));
+            
+            element.classList.add('selected');
+            answers[question] = isCorrect;
+        }
+
+        function checkQuiz() {
+            if (Object.keys(answers).length < 5) {
+                alert('Mohon jawab semua pertanyaan terlebih dahulu!');
+                return;
+            }
+
+            let correct = 0;
+            for (let key in answers) {
+                if (answers[key]) correct++;
+            }
+
+            const allOptions = document.querySelectorAll('.quiz-option');
+            allOptions.forEach(opt => {
+                const isCorrect = opt.getAttribute('onclick').includes('true');
+                if (isCorrect) {
+                    opt.classList.add('correct');
+                } else if (opt.classList.contains('selected')) {
+                    opt.classList.add('wrong');
+                }
+                opt.style.pointerEvents = 'none';
+            });
+
+            const score = (correct / 5) * 100;
+            let resultHTML = '';
+            
+            if (score >= 80) {
+                resultHTML = `<div class="result success">🎉 Luar Biasa! Nilai Anda: ${score}%<br>Pemahaman Anda tentang Modern Dressing sangat baik!</div>`;
+            } else if (score >= 60) {
+                resultHTML = `<div class="result success">👍 Bagus! Nilai Anda: ${score}%<br>Anda memahami konsep dasar dengan baik. Tetap semangat belajar!</div>`;
+            } else {
+                resultHTML = `<div class="result error">📚 Nilai Anda: ${score}%<br>Pelajari kembali materi untuk pemahaman yang lebih baik.</div>`;
+            }
+            
+            document.getElementById('quizResult').innerHTML = resultHTML;
+        }
+    </script>
+</body>
+</html>
